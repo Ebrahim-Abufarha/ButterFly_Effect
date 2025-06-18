@@ -18,11 +18,10 @@ return new class extends Migration
     }
 
     /**
-     * Reverse thee migrations.
+     * Reverse the migrations.
      */
     public function down(): void
     {
-         Schema::dropIfExists('users');
+        Schema::dropIfExists('users');
     }
 };
-// 
