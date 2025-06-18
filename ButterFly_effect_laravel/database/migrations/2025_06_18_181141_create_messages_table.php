@@ -11,10 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('messages', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+   Schema::create('messages', function (Blueprint $table) {
+    $table->id();
+    $table->foreignId('from_user_id')->constrained('users');
+    $table->foreignId('to_user_id')->constrained('users');
+    $table->text('message');
+    $table->boolean('seen')->default(false);
+    $table->softDeletes();
+    $table->timestamps();
+});
+
     }
 
     /**

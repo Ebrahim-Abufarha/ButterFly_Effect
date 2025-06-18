@@ -11,10 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+ Schema::create('users', function (Blueprint $table) {
+    $table->id();
+    $table->string('name');
+    $table->string('email')->unique();
+    $table->string('phone')->nullable();
+    $table->string('password');
+    $table->enum('role', ['counselee', 'counselor', 'parent', 'institution', 'super_admin']);
+    $table->foreignId('institution_id')->nullable()->constrained();
+    $table->unsignedBigInteger('counselee_id_if_parent')->nullable();
+    $table->softDeletes();
+    $table->timestamps();
+});
+
     }
 
     /**

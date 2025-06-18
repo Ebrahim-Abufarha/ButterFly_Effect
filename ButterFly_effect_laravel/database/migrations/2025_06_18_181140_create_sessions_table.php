@@ -11,10 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sessions', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+     Schema::create('sessions', function (Blueprint $table) {
+    $table->id();
+    $table->foreignId('counselee_id')->constrained('counselees');
+    $table->foreignId('counselor_id')->constrained('users');
+    $table->date('date');
+    $table->time('time');
+    $table->integer('duration')->nullable();
+    $table->string('audio_url')->nullable();
+    $table->longText('transcript_text')->nullable();
+    $table->longText('comment')->nullable();
+    $table->softDeletes();
+    $table->timestamps();
+});
+
     }
 
     /**

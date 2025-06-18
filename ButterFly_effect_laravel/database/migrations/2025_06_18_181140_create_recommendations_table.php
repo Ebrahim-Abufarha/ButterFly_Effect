@@ -11,10 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('recommendations', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+      Schema::create('recommendations', function (Blueprint $table) {
+    $table->id();
+    $table->foreignId('counselee_id')->constrained('counselees');
+    $table->foreignId('counselor_id')->constrained('users');
+    $table->text('text');
+    $table->boolean('for_parent')->default(false);
+    $table->softDeletes();
+    $table->timestamps();
+});
+
     }
 
     /**

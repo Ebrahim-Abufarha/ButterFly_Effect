@@ -11,10 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('counselees', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+    Schema::create('counselees', function (Blueprint $table) {
+    $table->id();
+    $table->foreignId('user_id')->constrained()->onDelete('cascade');
+    $table->foreignId('parent_id')->nullable()->constrained('users'); 
+    $table->foreignId('counselor_id')->nullable()->constrained('users');
+    $table->date('birth_date');
+    $table->softDeletes();
+    $table->timestamps();
+});
+
     }
 
     /**
