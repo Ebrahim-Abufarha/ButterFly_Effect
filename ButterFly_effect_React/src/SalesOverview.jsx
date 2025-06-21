@@ -1,6 +1,6 @@
+import React from 'react';
 
-function SalesChart() {
-
+function SalesOverview() {
   return (
     <div className="border-black/12.5 dark:bg-slate-850 dark:shadow-dark-xl shadow-xl relative z-20 flex min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
       <div className="border-black/12.5 mb-0 rounded-t-2xl border-b-0 border-solid p-6 pt-4 pb-0">
@@ -19,4 +19,4 @@ function SalesChart() {
   );
 }
 
-export default SalesChart;
+export default SalesOverview;
