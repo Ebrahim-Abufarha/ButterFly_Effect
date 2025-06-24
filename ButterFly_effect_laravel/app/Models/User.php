@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Counselee;
 
 class User extends Authenticatable
 {
@@ -45,10 +47,11 @@ class User extends Authenticatable
     }
 
     // If user is counselor, get counselees assigned to him
-    public function counselees()
-    {
-        return $this->hasMany(Counselee::class, 'counselor_id');
-    }
+  public function counselees()
+{
+    return $this->hasMany(Counselee::class, 'counselor_id');
+}
+
 
     // Messages sent by this user
     public function sentMessages()
@@ -79,4 +82,5 @@ class User extends Authenticatable
     {
         return $this->hasMany(Notification::class);
     }
+    
 }
