@@ -11,7 +11,8 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
-   public function login(Request $request)
+  // AuthController.php
+public function login(Request $request)
 {
     $request->validate([
         'email' => 'required|email',
@@ -30,12 +31,14 @@ class AuthController extends Controller
         'access_token' => $token,
         'token_type' => 'Bearer',
         'user' => $user
-    ])->header('Access-Control-Allow-Credentials', 'true');
+    ]);
 }
 
+
     public function logout(Request $request)
-    {
-        $request->user()->currentAccessToken()->delete();
-        return response()->json(['message' => 'Logged out']);
-    }
+{
+    $request->user()->currentAccessToken()->delete();
+    return response()->json(['message' => 'Logged out']);
+}
+
 }

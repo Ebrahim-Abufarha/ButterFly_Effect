@@ -31,6 +31,10 @@ Route::middleware('auth:sanctum')->get('/me', function (Request $request) {
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
     Route::resource('users', UserAdminController::class);
+    Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/profile', [UserAdminController::class, 'profile']);
+    Route::put('/profile', [UserAdminController::class, 'updateProfile']);
+});
     Route::resource('institutions', InstitutionAdminController::class);
     Route::resource('counselee', CounseleesAdminController::class);
     Route::resource('recommendations', RecommendationsAdminController::class);
