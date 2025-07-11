@@ -33,8 +33,6 @@ function SignIn() {
 
     localStorage.setItem('token', response.data.access_token);
     const role = response.data.user.role;
-    localStorage.setItem('user', JSON.stringify(response.data.user));
-
 alert(role);
     switch (role) {
       case 'counselee':

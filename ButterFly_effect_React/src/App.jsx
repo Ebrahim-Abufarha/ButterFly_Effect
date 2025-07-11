@@ -8,6 +8,10 @@ import Profile from './Profile';
 import AdminLayout from './assets/admin/AdminLayout';
 import UsersList from './assets/admin/Users';
 import UserForm from './assets/admin/UserForm';
+import DashboardInstitution from './assets/institution/DashboardInstitution';
+import InstitutionLayout from './assets/institution/InstitutionLayout';
+import CounselorsList from './assets/institution/Counselor';
+import CounselorForm from './assets/institution/CounselorForm';
 
 function App() {
   return (
@@ -25,6 +29,14 @@ function App() {
             <Route path="users/create" element={<UserForm />} />
             <Route path="users/edit/:id" element={<UserForm />} />
           </Route>
+          <Route path="/institution" element={<InstitutionLayout />}>
+             <Route index element={<DashboardInstitution />} /> {/* /institution */}
+            <Route path="Counselor" element={<CounselorsList />} />
+<Route path="counselors/create" element={<CounselorForm />} />
+  <Route path="/institution/counselors/edit/:id" element={<CounselorForm />} />
+
+          </Route>
+
         </Routes>
       </div>
     </Router>

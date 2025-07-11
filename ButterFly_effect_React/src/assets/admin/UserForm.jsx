@@ -71,7 +71,6 @@ const UserForm = () => {
         axios.defaults.headers.common['X-XSRF-TOKEN'] = csrfToken;
       }
 
-      // جهز البيانات للإرسال
       const data = {
         name: formData.name,
         email: formData.email,
@@ -85,7 +84,6 @@ const UserForm = () => {
         // institution_status: formData.institution_status,
       };
 
-      // امسح كلمات المرور لو مش معبية (حتى لا تسبب مشاكل في التحديث)
       if (!data.password) {
         delete data.password;
         delete data.password_confirmation;
