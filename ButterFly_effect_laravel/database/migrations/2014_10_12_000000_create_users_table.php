@@ -17,6 +17,18 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+
+            $table->enum('user_type', ['seeker', 'counselor', 'institution_admin', 'super_admin', 'finance_manager', 'parent']);
+            $table->string('gender')->nullable();
+            $table->integer('age')->nullable();
+            $table->string('nationality')->nullable();
+            $table->string('residence')->nullable();
+            $table->string('education_level')->nullable(); 
+            $table->string('marital_status')->nullable();
+            $table->string('employment_status')->nullable();
+            $table->string('income_range')->nullable();
+            $table->boolean('has_prior_support')->default(false);
+
             $table->rememberToken();
             $table->timestamps();
         });
