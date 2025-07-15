@@ -1,25 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import logoDark from '/img/logo-ct-dark.png';
 import logoLight from '/img/logo-ct.png';
 // import documentationIcon from '/img/illustrations/icon-documentation.svg';
 import axios from 'axios';
-import { useEffect } from 'react';
-
-import { useNavigate } from 'react-router-dom';
-axios.defaults.baseURL = 'http://localhost:8000';
-axios.defaults.withCredentials = true;
 
 
 function Sidebar() {
-  //  const navigate = useNavigate();
-  //   useEffect(() => {
-  //   const token = localStorage.getItem('token');
-  //   const user = JSON.parse(localStorage.getItem('user')); 
+ const navigate = useNavigate();
 
-  //   if (!token || !user || user.role !== 'super_admin') {
-  //     navigate('/login');
-  //   }
-  // }, []);
+useEffect(() => {
+  const token = localStorage.getItem('auth_token');
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  if (!token || !user || user.user_type !== 'super_admin') {
+    navigate('/login');
+  }
+}, []);
+
   
   
   function getCookie(name) {
@@ -29,25 +27,26 @@ function Sidebar() {
 
 const handleLogout = async () => {
   try {
-    await axios.get('/sanctum/csrf-cookie');
+    const token = localStorage.getItem('auth_token');
+const csrfToken = getCookie('XSRF-TOKEN');
+      if (csrfToken) {
+        axios.defaults.headers.common['X-XSRF-TOKEN'] = csrfToken;
+      }
 
-    const csrfToken = getCookie('XSRF-TOKEN');
-    if (csrfToken) {
-      axios.defaults.headers.common['X-XSRF-TOKEN'] = csrfToken;
-    }
-
-    await axios.post('/api/logout', {}, {
+    await axios.post('http://localhost:8000/api/logout', {}, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
+        Authorization: `Bearer ${token}`
       }
     });
 
-    localStorage.removeItem('token');
+    localStorage.removeItem('auth_token');
+    localStorage.removeItem('user');
     window.location.href = '/login';
   } catch (error) {
     console.error('Logout failed:', error);
   }
 };
+
 
 
 
@@ -77,21 +76,21 @@ const handleLogout = async () => {
           </li>
 
           <li className="mt-0.5 w-full">
-            <a className="dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors" href="/admin/users">
+            <a className="dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors" href="/admin/institution">
               <div className="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                 <i className="relative top-0 text-sm leading-normal text-orange-500 ni ni-calendar-grid-58"></i>
               </div>
               <span className="ml-1 duration-300 opacity-100 pointer-events-none ease">Institutions </span>
             </a>
           </li>
-          <li className="mt-0.5 w-full">
+          {/* <li className="mt-0.5 w-full">
             <a className="dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors" href="/admin/profile">
               <div className="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                 <i className="relative top-0 text-sm leading-normal text-orange-500 ni ni-calendar-grid-58"></i>
               </div>
               <span className="ml-1 duration-300 opacity-100 pointer-events-none ease">Profile </span>
             </a>
-          </li>
+          </li> */}
 {/* 
           <li className="mt-0.5 w-full">
             <a className="dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors" href="./pages/billing.html">

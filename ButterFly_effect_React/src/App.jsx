@@ -3,15 +3,11 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import SignIn from './SignIn';
 import DashboardAdmin from './assets/admin/DashBoardAdmin';
-import Profile from './Profile';
 // import Users from './Users'; 
 import AdminLayout from './assets/admin/AdminLayout';
-import UsersList from './assets/admin/Users';
-import UserForm from './assets/admin/UserForm';
-import DashboardInstitution from './assets/institution/DashboardInstitution';
-import InstitutionLayout from './assets/institution/InstitutionLayout';
-import CounselorsList from './assets/institution/Counselor';
-import CounselorForm from './assets/institution/CounselorForm';
+
+import InstitutionList from './assets/admin/InstitutionList';
+import InstitutionForm from './assets/admin/InstitutionForm';
 
 function App() {
   return (
@@ -24,18 +20,17 @@ function App() {
 
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<DashboardAdmin />} /> {/* /admin */}
-            <Route path="profile" element={<Profile />} /> {/* /admin/profile */}
-            <Route path="users" element={<UsersList />} />
-            <Route path="users/create" element={<UserForm />} />
-            <Route path="users/edit/:id" element={<UserForm />} />
+            <Route path="Institution" element={<InstitutionList />} />
+            <Route path="institutions/edit/:id" element={<InstitutionForm />} />
+            <Route path="institutions/create" element={<InstitutionForm />} />
           </Route>
-          <Route path="/institution" element={<InstitutionLayout />}>
-             <Route index element={<DashboardInstitution />} /> {/* /institution */}
+          {/* <Route path="/institution" element={<InstitutionLayout />}>
+             <Route index element={<DashboardInstitution />} /> 
             <Route path="Counselor" element={<CounselorsList />} />
 <Route path="counselors/create" element={<CounselorForm />} />
   <Route path="/institution/counselors/edit/:id" element={<CounselorForm />} />
 
-          </Route>
+          </Route> */}
 
         </Routes>
       </div>

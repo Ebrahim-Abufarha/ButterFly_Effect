@@ -10,7 +10,7 @@ class Institution extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'sector', 'number_of_employees', 'mental_health_policy', 'user_id'
+        'name', 'sector','mental_health_policy', 'number_of_employees', 'user_id'
     ];
 
     public function user()

@@ -1,66 +1,53 @@
 import axios from 'axios';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 axios.defaults.baseURL = 'http://localhost:8000';
 axios.defaults.withCredentials = true;
-
-function getCookie(name) {
-  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-  return match ? decodeURIComponent(match[2]) : null;
-}
+axios.defaults.headers.common['Accept'] = 'application/json';
+axios.defaults.headers.common['Content-Type'] = 'application/json';
 
 function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  function getCookie(name) {
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return match ? decodeURIComponent(match[2]) : null;
+  }
 
   const handleLogin = async (e) => {
-  e.preventDefault();
-  setError('');
+    e.preventDefault();
 
-  try {
-    await axios.get('/sanctum/csrf-cookie');
+    try {
+      await axios.get('/sanctum/csrf-cookie');
 
-    const csrfToken = getCookie('XSRF-TOKEN');
-    if (csrfToken) {
-      axios.defaults.headers.common['X-XSRF-TOKEN'] = csrfToken;
+      const csrfToken = getCookie('XSRF-TOKEN');
+      if (csrfToken) {
+        axios.defaults.headers.common['X-XSRF-TOKEN'] = csrfToken;
+      }
+
+      const response = await axios.post('/api/login', {
+        email,
+        password,
+      });
+
+      console.log('Login success:', response.data);
+    localStorage.setItem('auth_token', response.data.token);
+    localStorage.setItem('user', JSON.stringify(response.data.user));
+
+    if (response.data.user.user_type === 'super_admin') {
+      navigate('/admin');
+    } else {
+      navigate('/admin/users/UserListtt');
     }
-
-    const response = await axios.post('/api/login', {
-      email,
-      password,
-    });
-
-    localStorage.setItem('token', response.data.access_token);
-    const role = response.data.user.role;
-alert(role);
-    switch (role) {
-      case 'counselee':
-        window.location.href = '/counselee';
-        break;
-      case 'counselor':
-        window.location.href = '/counselor';
-        break;
-      case 'parent':
-        window.location.href = '/parent';
-        break;
-      case 'institution':
-        window.location.href = '/institution';
-        break;
-      case 'super_admin':
-        window.location.href = '/admin';
-        break;
-      default:
-        window.location.href = '/';
-        break;
-    }
-
-  } catch (err) {
-    console.error('Login error:', err);
-    setError('Login failed: Check your credentials or CSRF token.');
+  } catch (error) {
+    console.error('Login error:', error);
+    setError("Login failed. Please check your credentials.");
   }
 };
-
 
   return (
     <div className="m-0 font-sans antialiased font-normal bg-white text-start text-base leading-default text-slate-500">
